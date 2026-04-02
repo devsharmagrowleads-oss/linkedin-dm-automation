@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GrowLeads Connect</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <header class="header">
+    <span class="logo">GrowLeads</span>
+    <span class="badge" id="statusBadge">Not connected</span>
+  </header>
+
+  <!-- Not-connected state -->
+  <div id="viewConnect" class="view">
+    <p class="hint">
+      Make sure you're logged into LinkedIn in this browser, then click below.
+    </p>
+    <button class="btn-primary" id="btnConnect">Connect LinkedIn Account</button>
+    <p id="connectError" class="error" style="display:none"></p>
+
+    <div class="divider"></div>
+    <p class="label">Your GrowLeads User ID</p>
+    <div class="id-row">
+      <span class="id-text" id="userId"></span>
+      <button class="btn-copy" id="btnCopyId" title="Copy">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+      </button>
+    </div>
+    <p class="hint small">Use this ID to access your dashboard and create campaigns.</p>
+  </div>
+
+  <!-- Connected state -->
+  <div id="viewConnected" class="view" style="display:none">
+    <div class="profile-row">
+      <div class="profile-avatar" id="profileInitials"></div>
+      <div class="profile-info">
+        <strong id="profileName"></strong>
+        <span class="hint small">Account connected</span>
+      </div>
+    </div>
+
+    <p class="hint">
+      Your campaigns are running in the cloud. Use your dashboard to create and manage them.
+    </p>
+
+    <div class="id-row">
+      <span class="id-text small" id="connectedUserId"></span>
+      <button class="btn-copy" id="btnCopyConnectedId" title="Copy User ID">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-secondary" id="btnRefresh">Refresh</button>
+      <button class="btn-danger"    id="btnDisconnect">Disconnect</button>
+    </div>
+  </div>
+
+  <!-- Connecting overlay -->
+  <div id="viewLoading" class="view loading-view" style="display:none">
+    <div class="spinner"></div>
+    <span>Connecting...</span>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

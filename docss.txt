@@ -1,0 +1,21 @@
+GrowLeads — an internal LinkedIn automation tool for your team's lead generation.
+
+  The core idea:
+  1. You publish a LinkedIn post offering a free resource
+  2. Someone comments on it
+  3. GrowLeads automatically DMs that person: "Hey John! Here's the resource I mentioned: [your-link]"
+  4. Everything runs in the cloud — no browser needed after setup
+
+  How it works:
+  - Chrome extension — connects your LinkedIn account by extracting the session cookie (one-time setup)
+  - Backend — polls the LinkedIn post every 2 minutes for new commenters, queues and sends DMs with human-like delays and    
+  rate limits (25 DMs/day, 8/hour, random 2–8 min gaps between sends)
+  - Dashboard — create/manage campaigns, view activity logs
+
+  Key constraints:
+  - Internal tool only — no billing, no public SaaS
+  - Anti-ban focused — random delays, daily caps, concurrent send limit of 1
+  - No login system — extension generates a UUID that acts as your identity
+
+  The full system was built and functional. The remaining gaps were: time-of-day sending window, multiple LinkedIn accounts, 
+  extra message variables, and email alerts for invalid sessions.

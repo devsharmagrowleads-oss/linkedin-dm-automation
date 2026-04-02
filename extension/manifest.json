@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "GrowLeads Connect",
+  "version": "2.0.0",
+  "description": "Connect your LinkedIn account to GrowLeads to run automated DM campaigns in the cloud.",
+
+  "permissions": [
+    "cookies",
+    "storage"
+  ],
+
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "http://localhost:3001/*"
+  ],
+
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
+
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16":  "icons/icon16.png",
+      "48":  "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+
+  "icons": {
+    "16":  "icons/icon16.png",
+    "48":  "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

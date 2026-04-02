@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id
+  email     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  accounts  LinkedInAccount[]
+  campaigns Campaign[]
+
+  @@map("users")
+}
+
+model LinkedInAccount {
+  id             String    @id @default(uuid())
+  userId         String    @map("user_id")
+  liAt           String    @map("li_at")       // LinkedIn session cookie
+  jsessionId     String?   @map("jsession_id") // CSRF token — refreshed automatically
+  profileName    String?   @map("profile_name")
+  profileId      String?   @map("profile_id")
+  status         String    @default("active")  // active | invalid | rate_limited
+  lastVerifiedAt DateTime? @map("last_verified_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campaigns Campaign[]
+
+  @@unique([userId, profileId])
+  @@map("linkedin_accounts")
+}
+
+model Campaign {
+  id              String    @id @default(uuid())
+  userId          String    @map("user_id")
+  accountId       String    @map("account_id")
+  name            String
+  postUrl         String    @map("post_url")
+  activityId      String    @map("activity_id")
+  resourceUrl     String    @map("resource_url")
+  messageTemplate String    @map("message_template")
+  status          String    @default("active") // active | paused
+  dmsSent         Int       @default(0) @map("dms_sent")
+  lastPolledAt    DateTime? @map("last_polled_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  user    User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account LinkedInAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  sentDms SentDM[]
+  logs    ActivityLog[]
+
+  @@map("campaigns")
+}
+
+model SentDM {
+  id                String   @id @default(uuid())
+  campaignId        String   @map("campaign_id")
+  linkedinProfileId String   @map("linkedin_profile_id")
+  profileName       String?  @map("profile_name")
+  sentAt            DateTime @default(now()) @map("sent_at")
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, linkedinProfileId])
+  @@index([campaignId])
+  @@map("sent_dms")
+}
+
+model ActivityLog {
+  id         String   @id @default(uuid())
+  campaignId String?  @map("campaign_id")
+  level      String   // INFO | WARN | ERROR
+  action     String?
+  message    String
+  meta       Json?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+
+  @@index([campaignId, createdAt(sort: Desc)])
+  @@index([createdAt(sort: Desc)])
+  @@map("activity_logs")
+}
