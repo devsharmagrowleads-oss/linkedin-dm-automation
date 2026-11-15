@@ -74,7 +74,7 @@ GrowLeads monitors a LinkedIn post for new commenters and automatically sends ea
 ## File Structure
 
 ```
-F:/Growleads/w/
+linkedin-dm-automation/
 ├── backend/                          Node.js API + workers
 │   ├── .env                          DB + Redis connection strings
 │   ├── package.json
@@ -222,24 +222,24 @@ activity_logs
 | Component | Details |
 |-----------|---------|
 | PostgreSQL 17 | Installed via winget, runs as Windows service (auto-starts) |
-| Redis 5.0 | Portable binary at `C:\Users\Dell\redis\redis-server.exe` |
+| Redis 5.0 | Portable binary, e.g. `<redis-dir>\redis-server.exe` |
 | Backend | Node.js 18+, runs on port 3001 |
 | Dashboard | Next.js 14, runs on port 3000 |
 
 **Start Redis** (must run manually each time — not a Windows service):
 ```
-C:\Users\Dell\redis\redis-server.exe
+<redis-dir>\redis-server.exe
 ```
 
 **Start Backend:**
 ```
-cd F:\Growleads\w\backend
+cd backend
 npm run dev
 ```
 
 **Start Dashboard:**
 ```
-cd F:\Growleads\w\dashboard
+cd dashboard
 npm run dev
 ```
 
@@ -276,7 +276,7 @@ All originally planned features are now complete.
 
 **`backend/.env`**
 ```
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/growleads"
+DATABASE_URL="postgresql://<user>:<password>@localhost:5432/growleads"
 REDIS_URL="redis://localhost:6379"
 PORT=3001
 ALLOWED_ORIGINS="http://localhost:3000"

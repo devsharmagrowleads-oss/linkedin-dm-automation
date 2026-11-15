@@ -2,7 +2,9 @@
 :: Registers Redis as a Windows service so it auto-starts on boot.
 :: Run this script once as Administrator.
 
-set REDIS_EXE=C:\Users\Dell\redis\redis-server.exe
+:: Set REDIS_EXE to the full path of redis-server.exe before running this
+:: script. If it is not set, redis-server.exe is expected next to this script.
+if not defined REDIS_EXE set REDIS_EXE=%~dp0redis-server.exe
 
 echo Registering Redis as a Windows service...
 "%REDIS_EXE%" --service-install
